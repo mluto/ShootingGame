@@ -10,14 +10,36 @@ public class Enamy : MonoBehaviour
     [SerializeField] private Material gazedAtMaterial;
     [SerializeField] private Renderer myRenderer;
     [SerializeField] private NavMeshAgent nav;
-    [SerializeField] private Transform player;
+    [SerializeField] private Player player;
+    [SerializeField] private float timeBetweenAttacks = 0.5f;
 
+    private int attackDamage = 20;
     private float distance = 14f;
-
+    private float timer;
 
     private void Update()
     {
-        nav.SetDestination(player.position);
+        nav.SetDestination(player.transform.position);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject == player.gameObject)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= timeBetweenAttacks)
+            {
+                Attack();
+            }
+        }
+    }
+
+    /// <summary>Attack player.</summary>
+    private void Attack()
+    {
+        timer = 0f;
+        player.GetDamage(attackDamage);
     }
 
     /// <summary>Sets this instance's GazedAt state.</summary>
