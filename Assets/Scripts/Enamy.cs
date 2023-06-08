@@ -59,6 +59,7 @@ public class Enamy : MonoBehaviour
     /// <param name="eventData">The pointer click event which triggered this call.</param>
     public void TeleportRandomly(BaseEventData eventData)
     {
+        ScoreManager.AddPoint();
         gameObject.SetActive(false);
 
         // Only trigger on left input button, which maps to
