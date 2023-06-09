@@ -12,6 +12,7 @@ public class Enamy : MonoBehaviour
     [SerializeField] private NavMeshAgent nav;
     [SerializeField] private Player player;
     [SerializeField] private float timeBetweenAttacks = 0.5f;
+    [SerializeField] private GameObject hitParticle;
 
     private int attackDamage = 20;
     private float distance = 14f;
@@ -56,22 +57,12 @@ public class Enamy : MonoBehaviour
     }
 
     /// <summary>Teleport this instance randomly when triggered by a pointer click.</summary>
-    /// <param name="eventData">The pointer click event which triggered this call.</param>
-    public void TeleportRandomly(BaseEventData eventData)
+    public void TeleportRandomly()
     {
         ScoreManager.AddPoint();
-        gameObject.SetActive(false);
 
-        // Only trigger on left input button, which maps to
-        // Daydream controller TouchPadButton and Trigger buttons.
-        PointerEventData ped = eventData as PointerEventData;
-        if (ped != null)
-        {
-            if (ped.button != PointerEventData.InputButton.Left)
-            {
-                return;
-            }
-        }
+        Instantiate(hitParticle, transform.position, Quaternion.identity);
+        gameObject.SetActive(false);
 
         // Move to random new location ±90˚ horzontal.
         Vector3 direction = Quaternion.Euler(
